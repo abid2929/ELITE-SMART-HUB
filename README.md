@@ -17,4 +17,4 @@ Upload the zip to `public_html`, extract, open `/admin` and set the admin passwo
 
 Service names and trademarks belong to their owners. Elite Smart Hub is an independent reseller.
 
-Designed & developed by [Abid Islam](https://www.linkedin.com/in/abid-islam-a926ab2b5/) & [Boostnix Media](https://boostnixmedia.com/).
+Designed & developed by [Abid Islam](https://www.linkedin.com/in/abid-islam-a926ab2b5/).
