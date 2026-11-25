@@ -3,7 +3,7 @@
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const tk = n => "৳" + Number(n || 0).toLocaleString("en-IN");
-const BN = s => String(s).replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+const BN = s => String(s);
 const img = s => !s ? "img/icon-512.png" : /^(https?:|data:|\/)/.test(s) ? s : "img/" + s;
 const ICONS = {
   play: '<path d="M8 5v14l11-7z"/>', music: '<path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
@@ -48,8 +48,8 @@ function cardHTML(s) {
    <div class="art"><img src="${esc(s.img)}" alt="${esc(s.name)}" loading="lazy" width="400" height="400" onerror="this.src='img/icon-512.png'">
     <div class="bdg">${s.bs ? '<span class="bs">Best Seller</span>' : ""}${s.nw ? '<span class="nw">New</span>' : ""}</div>${s.off >= 5 ? `<span class="off">-${s.off}%</span>` : ""}</div>
    <div class="bd"><h3>${esc(s.name)}</h3><p class="sd">${esc(s.sd)}</p>
-    <div class="meta"><div class="price">${s.min ? `${tk(s.min)}${s.old ? `<s>${tk(s.old)}</s>` : ""}${s.plans.length > 1 ? ` <small>থেকে</small>` : ""}` : '<small>দাম জানতে নক দিন</small>'}</div><span class="plans">${BN(s.plans.length)}টি প্ল্যান</span></div>
-    <button class="btn red" type="button">অর্ডার করুন</button></div></article>`;
+    <div class="meta"><div class="price">${s.min ? `${tk(s.min)}${s.old ? `<s>${tk(s.old)}</s>` : ""}${s.plans.length > 1 ? ` <small>from</small>` : ""}` : '<small>Ask for price</small>'}</div><span class="plans">${s.plans.length} plan${s.plans.length > 1 ? "s" : ""}</span></div>
+    <button class="btn red" type="button">Order Now</button></div></article>`;
 }
 
 function render() {
@@ -64,7 +64,7 @@ function render() {
 }
 function drawTabs(cats) {
   const n = k => SV.filter(s => k === "all" || s.cat === k).length;
-  $("#tabs").innerHTML = [{ k: "all", name: "সব সার্ভিস", ic: "all" }, ...cats].filter(c => n(c.k)).map(c => `<button class="tab ${CUR === c.k ? "on" : ""}" role="tab" data-k="${esc(c.k)}">${ico(c.ic)}${esc(c.name)} <small>${n(c.k)}</small></button>`).join("");
+  $("#tabs").innerHTML = [{ k: "all", name: "All Services", ic: "all" }, ...cats].filter(c => n(c.k)).map(c => `<button class="tab ${CUR === c.k ? "on" : ""}" role="tab" data-k="${esc(c.k)}">${ico(c.ic)}${esc(c.name)} <small>${n(c.k)}</small></button>`).join("");
 }
 
 /* ---------- order sheet ---------- */
@@ -74,58 +74,58 @@ function payMethods() { const p = D.site.payment || {}; const L = []; if (p.bkas
 function openOrder(key, planId) {
   const s = SV.find(x => x.key === key); if (!s) return;
   const sel = s.plans.find(p => p.id === planId) || s.plans[0];
-  const need = ((sel.d || "").match(/যা লাগবে:\s*(.+)/) || [])[1] || "আপনার ইমেইল";
+  const need = ((sel.d || "").match(/You need:\s*(.+)/) || [])[1] || "Your email";
   const PM = payMethods();
   track("ViewContent", { content_name: s.name, value: sel.p || 0, currency: "BDT" });
   history.replaceState(null, "", "#order/" + encodeURIComponent(s.key));
-  openSheet(`<div class="sh-h"><img src="${esc(s.img)}" alt=""><div><h3 id="shTitle">${esc(s.name)}</h3><p>${esc(s.sd)}</p></div><button class="x" type="button" onclick="closeSheet()" aria-label="বন্ধ করুন">✕</button></div>
+  openSheet(`<div class="sh-h"><img src="${esc(s.img)}" alt=""><div><h3 id="shTitle">${esc(s.name)}</h3><p>${esc(s.sd)}</p></div><button class="x" type="button" onclick="closeSheet()" aria-label="Close">✕</button></div>
   <form class="sh-b" id="of" novalidate>
-   <div><span class="lbl">প্ল্যান বেছে নিন</span><div class="pl">${s.plans.map(p => `<label><input type="radio" name="plan" value="${esc(p.id)}" ${p.id === sel.id ? "checked" : ""}><span>${esc(p.t || p.n)}</span>${p.o > p.p ? `<s>${tk(p.o)}</s>` : ""}<b>${p.p ? tk(p.p) : "নক দিন"}</b></label>`).join("")}</div></div>
+   <div><span class="lbl">Choose a plan</span><div class="pl">${s.plans.map(p => `<label><input type="radio" name="plan" value="${esc(p.id)}" ${p.id === sel.id ? "checked" : ""}><span>${esc(p.t || p.n)}</span>${p.o > p.p ? `<s>${tk(p.o)}</s>` : ""}<b>${p.p ? tk(p.p) : "Ask us"}</b></label>`).join("")}</div></div>
    <div class="info" id="pinfo"></div>
    <div class="f">
-    <div class="r2"><label>আপনার নাম *<input name="name" required maxlength="80" autocomplete="name" placeholder="যেমন: রাকিব হাসান"></label><label>WhatsApp নম্বর *<input name="phone" required inputmode="numeric" maxlength="14" autocomplete="tel" placeholder="01XXXXXXXXX"></label></div>
-    <label><span id="needL">${esc(need)}</span><input name="acc" maxlength="200" id="needI" placeholder="${esc(/ID/i.test(need) ? "যেমন 1234567890" : /লিংক/.test(need) ? "https://facebook.com/…" : "you@gmail.com")}"></label>
+    <div class="r2"><label>Your name *<input name="name" required maxlength="80" autocomplete="name" placeholder="e.g. Rakib Hasan"></label><label>WhatsApp number *<input name="phone" required inputmode="numeric" maxlength="14" autocomplete="tel" placeholder="01XXXXXXXXX"></label></div>
+    <label><span id="needL">${esc(need)}</span><input name="acc" maxlength="200" id="needI" placeholder="${esc(/ID/i.test(need) ? "e.g. 1234567890" : /link/i.test(need) ? "https://facebook.com/…" : "you@gmail.com")}"></label>
    </div>
-   <div><span class="lbl">পেমেন্ট মাধ্যম</span><div class="pm">${PM.map(([k, n, c], i) => `<label><input type="radio" name="pay" value="${k}" ${i === 0 ? "checked" : ""}><i class="c" style="background:${c}"></i>${n}</label>`).join("")}<label><input type="radio" name="pay" value="wa" ${PM.length ? "" : "checked"}>💬 WhatsApp এ কথা বলে</label></div></div>
+   <div><span class="lbl">Payment method</span><div class="pm">${PM.map(([k, n, c], i) => `<label><input type="radio" name="pay" value="${k}" ${i === 0 ? "checked" : ""}><i class="c" style="background:${c}"></i>${n}</label>`).join("")}<label><input type="radio" name="pay" value="wa" ${PM.length ? "" : "checked"}>💬 Pay on WhatsApp</label></div></div>
    <div class="paybox" id="paybox"></div>
-   <div class="f"><label>নোট <i>(ঐচ্ছিক)</i><textarea name="note" maxlength="300" placeholder="কিছু জানাতে চাইলে লিখুন"></textarea></label></div>
+   <div class="f"><label>Note <i>(optional)</i><textarea name="note" maxlength="300" placeholder="Anything you want to tell us"></textarea></label></div>
    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-   <div class="tot"><span>মোট</span><b id="tot"></b></div>
+   <div class="tot"><span>Total</span><b id="tot"></b></div>
    <p class="err" id="oerr" role="alert"></p>
-   <button class="btn red lg" id="obtn">অর্ডার কনফার্ম করুন</button>
-   <a class="btn ghost" data-wa-plan>সরাসরি WhatsApp এ জিজ্ঞেস করুন</a>
+   <button class="btn red lg" id="obtn">Confirm Order</button>
+   <a class="btn ghost" data-wa-plan>Ask directly on WhatsApp</a>
   </form>`);
   const F = $("#of");
   const cur = () => s.plans.find(p => p.id === (new FormData(F).get("plan"))) || sel;
   const upd = () => {
     const p = cur(), pay = new FormData(F).get("pay"), pm = PM.find(x => x[0] === pay);
-    $("#pinfo").textContent = p.d || ""; $("#tot").textContent = p.p ? tk(p.p) : "নক দিন";
-    const nd = ((p.d || "").match(/যা লাগবে:\s*(.+)/) || [])[1] || "আপনার ইমেইল"; $("#needL").textContent = nd;
-    $("#paybox").innerHTML = pm ? `<div>নিচের ${pm[1]} নম্বরে <b>${p.p ? tk(p.p) : ""}</b> <b>Send Money</b> করুন:</div><div class="num">${esc(pm[3])} <button type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText('${esc(pm[3])}').then(()=>toast('নম্বর কপি হয়েছে ✓'))">কপি</button></div><label class="f" style="gap:5px;font-weight:600">Transaction ID (TrxID) *<input name="trx" maxlength="40" placeholder="যেমন 9GH7K2LM0P" autocomplete="off"></label>${D.site.payment?.note ? `<small class="mu">${esc(D.site.payment.note)}</small>` : ""}`
-      : `<div>অর্ডার কনফার্ম করার পর WhatsApp এ আমাদের সাথে কথা বলে পেমেন্ট করবেন। আমরা পেমেন্ট নম্বর পাঠিয়ে দেব।</div>`;
-    $("[data-wa-plan]").href = waLink(`হ্যালো Elite Smart Hub, আমি ${s.name} (${p.t || p.n}${p.p ? ", " + tk(p.p) : ""}) নিতে চাই।`); $("[data-wa-plan]").target = "_blank";
+    $("#pinfo").textContent = p.d || ""; $("#tot").textContent = p.p ? tk(p.p) : "Ask us";
+    const nd = ((p.d || "").match(/You need:\s*(.+)/) || [])[1] || "Your email"; $("#needL").textContent = nd;
+    $("#paybox").innerHTML = pm ? `<div><b>Send Money</b> ${p.p ? `<b>${tk(p.p)}</b> ` : ""}to this ${pm[1]} number:</div><div class="num">${esc(pm[3])} <button type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText('${esc(pm[3])}').then(()=>toast('Number copied ✓'))">Copy</button></div><label class="f" style="gap:5px;font-weight:600">Transaction ID (TrxID) *<input name="trx" maxlength="40" placeholder="e.g. 9GH7K2LM0P" autocomplete="off"></label>${D.site.payment?.note ? `<small class="mu">${esc(D.site.payment.note)}</small>` : ""}`
+      : `<div>After you confirm the order, chat with us on WhatsApp and pay there. We will send you the payment number.</div>`;
+    $("[data-wa-plan]").href = waLink(`Hello Elite Smart Hub, I want ${s.name} (${p.t || p.n}${p.p ? ", " + tk(p.p) : ""}).`); $("[data-wa-plan]").target = "_blank";
   };
   F.onchange = e => { if (e.target.name === "plan" || e.target.name === "pay") upd() };
   upd();
   F.onsubmit = async e => {
     e.preventDefault(); const fd = new FormData(F), p = cur(), err = $("#oerr"); err.textContent = "";
     const name = (fd.get("name") || "").trim(), phone = (fd.get("phone") || "").replace(/\D/g, "").replace(/^880/, "0").replace(/^88/, ""), acc = (fd.get("acc") || "").trim(), pay = fd.get("pay"), trx = (fd.get("trx") || "").trim();
-    if (!name) return err.textContent = "আপনার নাম লিখুন।";
-    if (!/^01[3-9]\d{8}$/.test(phone)) return err.textContent = "সঠিক ১১ ডিজিটের মোবাইল নম্বর লিখুন (যেমন 017XXXXXXXX)।";
-    if (pay !== "wa" && trx.length < 6) return err.textContent = "পেমেন্ট করে Transaction ID লিখুন (অথবা 'WhatsApp এ কথা বলে' বেছে নিন)।";
-    const b = $("#obtn"); b.disabled = true; b.textContent = "অর্ডার হচ্ছে…";
+    if (!name) return err.textContent = "Please write your name.";
+    if (!/^01[3-9]\d{8}$/.test(phone)) return err.textContent = "Please enter a valid 11-digit mobile number (e.g. 017XXXXXXXX).";
+    if (pay !== "wa" && trx.length < 6) return err.textContent = "Please pay and enter the Transaction ID (or choose 'Pay on WhatsApp').";
+    const b = $("#obtn"); b.disabled = true; b.textContent = "Placing order…";
     const body = { name, phone, address: acc, items: [{ id: p.id, q: 1 }], pay, trx, note: (fd.get("note") || "").trim(), website: fd.get("website") || "" };
     let j = null;
     try { const r = await fetch("shop-api.php?a=order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }); if ((r.headers.get("content-type") || "").includes("json")) j = await r.json() } catch (e) { }
-    b.disabled = false; b.textContent = "অর্ডার কনফার্ম করুন";
+    b.disabled = false; b.textContent = "Confirm Order";
     if (j && j.error) return err.textContent = j.error;
     const no = j && j.no ? j.no : "";
-    const payTxt = pay === "wa" ? "WhatsApp এ কথা বলে পেমেন্ট করব" : `${pay} · TrxID ${trx}`;
-    const msg = `হ্যালো Elite Smart Hub, আমি অর্ডার করেছি।${no ? `\nঅর্ডার নম্বর: ${no}` : ""}\nসার্ভিস: ${s.name}\nপ্ল্যান: ${p.t || p.n}\nদাম: ${p.p ? tk(p.p) : "-"}\nনাম: ${name}\nনম্বর: ${phone}${acc ? `\nইমেইল/আইডি: ${acc}` : ""}\nপেমেন্ট: ${payTxt}`;
+    const payTxt = pay === "wa" ? "I will pay on WhatsApp" : `${pay} · TrxID ${trx}`;
+    const msg = `Hello Elite Smart Hub, I placed an order.${no ? `\nOrder no: ${no}` : ""}\nService: ${s.name}\nPlan: ${p.t || p.n}\nPrice: ${p.p ? tk(p.p) : "-"}\nName: ${name}\nNumber: ${phone}${acc ? `\nEmail/ID: ${acc}` : ""}\nPayment: ${payTxt}`;
     track("Purchase", { value: p.p || 0, currency: "BDT", content_name: s.name }, no);
-    openSheet(`<div class="ok"><button class="x" type="button" onclick="closeSheet()" aria-label="বন্ধ করুন" style="position:absolute;right:16px;top:16px">✕</button><div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div>
-      <h3>${no ? "অর্ডার হয়েছে, ধন্যবাদ!" : "প্রায় শেষ!"}</h3>${no ? `<div class="no">${esc(no)}</div><p>অর্ডার নম্বরটি রেখে দিন। এখন WhatsApp এ একটা মেসেজ দিন, দ্রুত চালু করে দিচ্ছি।</p>` : `<p>নিচের বাটনে চাপ দিয়ে WhatsApp এ অর্ডারটি পাঠিয়ে দিন।</p>`}
-      <a class="btn wa lg" href="${esc(waLink(msg))}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg> WhatsApp এ কনফার্ম করুন</a></div>`);
+    openSheet(`<div class="ok"><button class="x" type="button" onclick="closeSheet()" aria-label="Close" style="position:absolute;right:16px;top:16px">✕</button><div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></div>
+      <h3>${no ? "Order placed, thank you!" : "Almost done!"}</h3>${no ? `<div class="no">${esc(no)}</div><p>Keep your order number. Now send us a WhatsApp message and we will activate it fast.</p>` : `<p>Tap the button below to send your order on WhatsApp.</p>`}
+      <a class="btn wa lg" href="${esc(waLink(msg))}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg> Confirm on WhatsApp</a></div>`);
   };
 }
 
@@ -133,18 +133,18 @@ function openOrder(key, planId) {
 function drawReviews() {
   const R = (D.reviews || []).filter(r => r.on);
   $("#rvList").innerHTML = R.length ? R.slice(0, 9).map(r => `<div class="rv rv-in"><span class="stars">${"★".repeat(Math.max(1, Math.min(5, r.stars || 5)))}</span><p>${esc(r.text)}</p><b>${esc(r.name)}</b><small>${esc(r.pet || "")}</small></div>`).join("")
-    : `<p class="rv-empty">আপনার অভিজ্ঞতা জানাতে "রিভিউ লিখুন" বাটনে চাপ দিন।</p>`;
+    : `<p class="rv-empty">Tap "Write a review" to share your experience.</p>`;
 }
 function openReview() {
-  openSheet(`<div class="sh-h"><img src="img/icon-192.png" alt=""><div><h3 id="shTitle">রিভিউ লিখুন</h3><p>আপনার মতামত আমাদের কাছে মূল্যবান</p></div><button class="x" type="button" onclick="closeSheet()" aria-label="বন্ধ করুন">✕</button></div>
-  <form class="sh-b f" id="rf"><label>আপনার নাম *<input name="name" required maxlength="60"></label><label>কোন সার্ভিস নিয়েছিলেন?<select name="pid">${SV.map(s => `<option value="${esc(s.plans[0].id)}">${esc(s.name)}</option>`).join("")}</select></label>
-   <label>রেটিং<select name="rating"><option value="5">★★★★★ দারুণ</option><option value="4">★★★★ ভালো</option><option value="3">★★★ মোটামুটি</option><option value="2">★★ খারাপ</option><option value="1">★ খুব খারাপ</option></select></label>
-   <label>রিভিউ *<textarea name="body" required maxlength="1000"></textarea></label><input class="hp" name="website" tabindex="-1" autocomplete="off"><p class="err" id="rerr"></p><button class="btn red">রিভিউ পাঠান</button></form>`);
+  openSheet(`<div class="sh-h"><img src="img/icon-192.png" alt=""><div><h3 id="shTitle">Write a review</h3><p>Your feedback means a lot to us</p></div><button class="x" type="button" onclick="closeSheet()" aria-label="Close">✕</button></div>
+  <form class="sh-b f" id="rf"><label>Your name *<input name="name" required maxlength="60"></label><label>Which service did you buy?<select name="pid">${SV.map(s => `<option value="${esc(s.plans[0].id)}">${esc(s.name)}</option>`).join("")}</select></label>
+   <label>Rating<select name="rating"><option value="5">★★★★★ Excellent</option><option value="4">★★★★ Good</option><option value="3">★★★ Okay</option><option value="2">★★ Poor</option><option value="1">★ Very poor</option></select></label>
+   <label>Review *<textarea name="body" required maxlength="1000"></textarea></label><input class="hp" name="website" tabindex="-1" autocomplete="off"><p class="err" id="rerr"></p><button class="btn red">Send review</button></form>`);
   $("#rf").onsubmit = async e => {
     e.preventDefault(); const b = Object.fromEntries(new FormData(e.target)); let j = null;
     try { const r = await fetch("shop-api.php?a=review", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(b) }); if ((r.headers.get("content-type") || "").includes("json")) j = await r.json() } catch (x) { }
     if (j && j.error) return $("#rerr").textContent = j.error;
-    closeSheet(); toast(j ? "ধন্যবাদ! রিভিউ যাচাইয়ের পর দেখা যাবে ✓" : "ধন্যবাদ! (ডেমোতে রিভিউ সেভ হয় না)");
+    closeSheet(); toast(j ? "Thank you! Your review will show after approval ✓" : "Thank you! (Reviews are not saved in the demo)");
   };
 }
 
@@ -153,9 +153,9 @@ let SL = { i: 0, n: 0, t: null };
 function slider() {
   const B = (D.banners || []).filter(b => b.on && b.img); if (!B.length) return;
   const tr = $("#slTrack");
-  tr.innerHTML = B.map((b, i) => `<a class="sl" href="${esc(b.link || "#services")}" aria-label="${esc(b.title || "অফার " + (i + 1))}"><img src="${esc(img(b.img))}" alt="${esc(b.title || "")}" width="1600" height="800" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}></a>`).join("");
+  tr.innerHTML = B.map((b, i) => `<a class="sl" href="${esc(b.link || "#services")}" aria-label="${esc(b.title || "Offer " + (i + 1))}"><img src="${esc(img(b.img))}" alt="${esc(b.title || "")}" width="1920" height="800" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}></a>`).join("");
   SL.n = B.length;
-  $("#slDots").innerHTML = SL.n > 1 ? B.map((_, i) => `<button type="button" aria-label="ব্যানার ${i + 1}" data-i="${i}"></button>`).join("") : "";
+  $("#slDots").innerHTML = SL.n > 1 ? B.map((_, i) => `<button type="button" aria-label="Banner ${i + 1}" data-i="${i}"></button>`).join("") : "";
   $$(".sl-btn").forEach(b => b.hidden = SL.n < 2);
   $("#slDots").onclick = e => { const d = e.target.closest("button"); if (d) slTo(+d.dataset.i) };
   let st; tr.addEventListener("scroll", () => { clearTimeout(st); st = setTimeout(() => { SL.i = Math.round(tr.scrollLeft / tr.clientWidth); slDots() }, 60) }, { passive: true });
@@ -181,9 +181,9 @@ function popular() {
   if (!s || !p) return;
   const ends = dl.ends ? new Date(dl.ends).getTime() : 0; if (ends && ends < Date.now()) return;
   const box = $("#deal"); box.hidden = false;
-  box.innerHTML = `<img src="${esc(s.img)}" alt=""><div><span class="tg">⚡ আজকের অফার</span><h3>${esc(s.name)}</h3><p>${esc(p.t || "")} · ${esc(s.sd)}</p>${ends ? '<div class="cd" id="cd"></div>' : ""}</div><div class="pz">${p.o > p.p ? `<s>${tk(p.o)}</s>` : ""}<b>${tk(p.p)}</b><span class="btn gold">এখনই নিন</span></div>`;
+  box.innerHTML = `<img src="${esc(s.img)}" alt=""><div><span class="tg">⚡ Today's Offer</span><h3>${esc(s.name)}</h3><p>${esc(p.t || "")} · ${esc(s.sd)}</p>${ends ? '<div class="cd" id="cd"></div>' : ""}</div><div class="pz">${p.o > p.p ? `<s>${tk(p.o)}</s>` : ""}<b>${tk(p.p)}</b><span class="btn gold">Get it now</span></div>`;
   box.onclick = () => openOrder(s.key, p.id);
-  if (ends) { const tick = () => { const ms = Math.max(0, ends - Date.now()), h = Math.floor(ms / 36e5), m = Math.floor(ms % 36e5 / 6e4), sc = Math.floor(ms % 6e4 / 1e3); $("#cd").textContent = `অফার শেষ হবে: ${BN(h)} ঘণ্টা ${BN(m)} মিনিট ${BN(sc)} সেকেন্ড`; if (!ms) clearInterval(t) }; const t = setInterval(tick, 1000); tick() }
+  if (ends) { const tick = () => { const ms = Math.max(0, ends - Date.now()), h = Math.floor(ms / 36e5), m = Math.floor(ms % 36e5 / 6e4), sc = Math.floor(ms % 6e4 / 1e3); $("#cd").textContent = `Offer ends in ${h}h ${m}m ${sc}s`; if (!ms) clearInterval(t) }; const t = setInterval(tick, 1000); tick() }
 }
 
 /* ---------- WhatsApp popup: once per visit, after the visitor scrolls ---------- */
@@ -232,12 +232,13 @@ async function init() {
   document.addEventListener("click", e => { const a = e.target.closest('a[href^="#order/"]'); if (a) { e.preventDefault(); openOrder(decodeURIComponent(a.getAttribute("href").slice(7))) } if (e.target.closest("[data-wa]")) track("Contact") });
   const m = location.hash.match(/^#order\/(.+)/); if (m) openOrder(decodeURIComponent(m[1]));
   $("#trackForm").onsubmit = async e => {
-    e.preventDefault(); const f = new FormData(e.target), box = $("#trackRes"); box.hidden = false; box.textContent = "খোঁজা হচ্ছে…";
-    const ST = { pending: "অপেক্ষমাণ", confirmed: "কনফার্মড", processing: "প্রসেসিং চলছে", shipped: "পাঠানো হয়েছে", delivered: "ডেলিভারি সম্পন্ন", cancelled: "বাতিল", returned: "ফেরত" };
+    e.preventDefault(); const f = new FormData(e.target), box = $("#trackRes"); box.hidden = false; box.textContent = "Searching…";
+    const ST = { pending: "Pending", confirmed: "Confirmed", processing: "Processing", shipped: "Access sent", delivered: "Completed", cancelled: "Cancelled", returned: "Refunded" };
     try { const r = await fetch(`shop-api.php?a=track&no=${encodeURIComponent(f.get("no").trim())}&phone=${encodeURIComponent(f.get("phone"))}`); const j = await r.json();
-      box.innerHTML = j.error ? `<span style="color:#ff7b74">এই নম্বর ও ফোন দিয়ে কোনো অর্ডার পাওয়া যায়নি।</span>` : `<b>${esc(j.no)}</b> · <span class="st">${ST[j.status] || esc(j.status)}</span><p class="mu" style="margin:8px 0 0">মোট ${tk(j.total)} · ${new Date(j.t * 1000).toLocaleDateString("bn-BD")}</p>`;
-    } catch (x) { box.textContent = "এখন ট্র্যাক করা যাচ্ছে না। WhatsApp এ অর্ডার নম্বর পাঠান।" }
+      box.innerHTML = j.error ? `<span style="color:#ff7b74">No order found with this number and phone.</span>` : `<b>${esc(j.no)}</b> · <span class="st">${ST[j.status] || esc(j.status)}</span><p class="mu" style="margin:8px 0 0">Total ${tk(j.total)} · ${new Date(j.t * 1000).toLocaleDateString("en-GB")}</p>`;
+    } catch (x) { box.textContent = "Tracking is not available right now. Send your order number on WhatsApp." }
   };
+  document.addEventListener("click", e => { const a = e.target.closest('a[href="#top"]'); if (a) { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); history.replaceState(null, "", location.pathname + location.search) } });
   // phone tab bar + nav highlight
   const secs = ["services", "how", "reviews", "faq", "track"].map(id => document.getElementById(id));
   const onScroll = () => { const y = scrollY + 120; let cur = "top"; secs.forEach(s => { if (s.offsetTop <= y) cur = s.id }); $$(".nav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur)); $$(".tabbar a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + (cur === "how" || cur === "reviews" || cur === "faq" ? "services" : cur))) };

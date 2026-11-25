@@ -21,13 +21,13 @@ $a = $_GET['a'] ?? '';
 if ($a === 'order' && $_SERVER['REQUEST_METHOD'] === 'POST') {
   $b = body();
   if (!empty($b['website'])) out(['ok' => 1, 'no' => 'PV-OK']);                 // honeypot: bots fill it
-  if (limited('order', 5, 600)) out(['error' => 'অনেকগুলো অর্ডার হয়েছে। একটু পরে চেষ্টা করুন বা WhatsApp এ নক দিন।'], 429);
+  if (limited('order', 5, 600)) out(['error' => 'Too many orders. Please try again later or message us on WhatsApp.'], 429);
   $name = trim(mb_substr((string)($b['name'] ?? ''), 0, 80));
   $phone = pv_phone((string)($b['phone'] ?? ''));
   $addr = trim(mb_substr((string)($b['address'] ?? ''), 0, 200));   // digital order: the email / player ID the service goes to
   $area = 'in';
   $pay = in_array($b['pay'] ?? '', ['bkash', 'nagad', 'rocket', 'wa'], true) ? $b['pay'] : 'wa';
-  if ($name === '' || !pv_valid_phone($phone)) out(['error' => 'আপনার নাম ও সঠিক ১১ ডিজিটের মোবাইল নম্বর লিখুন।'], 400);
+  if ($name === '' || !pv_valid_phone($phone)) out(['error' => 'Please give your name and a valid 11-digit mobile number.'], 400);
   $prods = pv_all_products(); $items = []; $sub = 0;
   foreach ((array)($b['items'] ?? []) as $it) {
     $id = (string)($it['id'] ?? ''); $q = max(1, min(50, (int)($it['q'] ?? 1)));
@@ -37,10 +37,10 @@ if ($a === 'order' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $items[] = ['id' => $id, 'n' => $x['n'], 'b' => $x['b'] ?? '', 'q' => $q, 'p' => (int)$x['p'], 'i' => $x['i'] ?? '', 'v' => mb_substr((string)($it['v'] ?? ''), 0, 40)];
     $sub += $q * (int)$x['p'];
   }
-  if (!$items) out(['error' => 'প্ল্যান বেছে নিন।'], 400);
+  if (!$items) out(['error' => 'Please choose a plan.'], 400);
   $site = pv_read('site'); $pm = $site['payment'] ?? [];
-  if ($pay !== 'wa' && trim((string)($pm[$pay] ?? '')) === '') out(['error' => 'এই পেমেন্ট মাধ্যম এখন চালু নেই।'], 400);
-  if ($pay !== 'wa' && mb_strlen(trim((string)($b['trx'] ?? ''))) < 6) out(['error' => 'পেমেন্ট করে Transaction ID লিখুন।'], 400);
+  if ($pay !== 'wa' && trim((string)($pm[$pay] ?? '')) === '') out(['error' => 'This payment method is not available now.'], 400);
+  if ($pay !== 'wa' && mb_strlen(trim((string)($b['trx'] ?? ''))) < 6) out(['error' => 'Please pay and enter the Transaction ID.'], 400);
   $ship = 0;   // digital delivery
   $order = ['no' => 'ESH-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 6)), 't' => time(), 'name' => $name, 'phone' => $phone, 'address' => $addr !== '' ? $addr : '—', 'area' => $area,
     'note' => trim(mb_substr((string)($b['note'] ?? ''), 0, 300)), 'pay' => $pay, 'trx' => trim(mb_substr((string)($b['trx'] ?? ''), 0, 40)),
@@ -77,17 +77,17 @@ if ($a === 'track') {
   $no = strtoupper(trim((string)($_GET['no'] ?? ''))); $ph = pv_phone((string)($_GET['phone'] ?? ''));
   foreach (pv_read('orders') as $o) if ($o['no'] === $no && $o['phone'] === $ph)
     out(['ok' => 1, 'no' => $o['no'], 'status' => $o['status'], 't' => $o['t'], 'total' => $o['total'], 'items' => count($o['items']), 'track' => $o['courier']['code'] ?? null]);
-  out(['error' => 'এই নম্বর ও ফোন দিয়ে কোনো অর্ডার পাওয়া যায়নি।'], 404);
+  out(['error' => 'No order found with this number and phone.'], 404);
 }
 
 if ($a === 'review' && $_SERVER['REQUEST_METHOD'] === 'POST') {   // customer review: saved hidden until the admin turns it on
   $b = body();
   if (!empty($b['website'])) out(['ok' => 1]);
   $name = trim(mb_substr((string)($b['name'] ?? ''), 0, 60)); $text = trim(mb_substr((string)($b['body'] ?? ''), 0, 1000));
-  if ($name === '' || $text === '') out(['error' => 'নাম ও রিভিউ লিখুন।'], 400);
+  if ($name === '' || $text === '') out(['error' => 'Please write your name and review.'], 400);
   $prods = pv_all_products(); $pid = (string)($b['pid'] ?? '');
   if (!isset($prods[$pid])) out(['error' => 'Product not found.'], 400);
-  if (limited('review', 3, 3600)) out(['error' => 'অনেক রিভিউ হয়েছে, পরে চেষ্টা করুন।'], 429);
+  if (limited('review', 3, 3600)) out(['error' => 'Too many reviews. Please try later.'], 429);
   $r = ['name' => $name, 'pet' => $prods[$pid]['n'], 'text' => $text, 'stars' => max(1, min(5, (int)($b['rating'] ?? 5))), 'on' => 0, 'pid' => $pid, 't' => time()];
   pv_update('reviews', function ($R) use ($r) { array_unshift($R, $r); return $R; });
   out(['ok' => 1]);
