@@ -1,0 +1,38 @@
+[
+ {
+  "img": "slide-1.jpg",
+  "title": "Elite Access Premium Experience",
+  "link": "#services",
+  "on": 1
+ },
+ {
+  "img": "slide-2.jpg",
+  "title": "Netflix + YouTube Premium",
+  "link": "#order/netflix%20premium",
+  "on": 1
+ },
+ {
+  "img": "slide-3.jpg",
+  "title": "ChatGPT Plus, Gemini, Claude",
+  "link": "#order/chatgpt%20plus",
+  "on": 1
+ },
+ {
+  "img": "slide-4.jpg",
+  "title": "Canva Pro, CapCut Pro",
+  "link": "#order/canva%20pro",
+  "on": 1
+ },
+ {
+  "img": "slide-5.jpg",
+  "title": "Free Fire, PUBG top-up",
+  "link": "#order/free%20fire%20diamonds",
+  "on": 1
+ },
+ {
+  "img": "slide-6.jpg",
+  "title": "Meta Verified, Telegram Premium",
+  "link": "#order/meta%20verified",
+  "on": 1
+ }
+]
