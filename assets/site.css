@@ -699,3 +699,17 @@ body[data-page="home"] #services{background:linear-gradient(180deg,#fff5f5 0%,#f
 .hero-band .stats b{color:#fff!important}.hero-band .stats span{color:#b9b3b6!important}
 .hero-band .h-trust svg{color:#ff5a5f!important}
 @media(max-width:720px){.cat-blk{margin:16px -6px 0;padding:14px 12px 6px;border-radius:20px}.cat-blk #grid .hrow,.cat-blk .hrow{margin:0 -12px!important;padding:0 12px 10px!important}.pop-sec{padding:28px 0 24px!important}.hero-band{padding:44px 0 0!important}}
+/* PC banner smaller (owner: "eto boro diye ki hobe") */
+@media (min-width:721px){
+ .slider{padding:20px 0 0!important}
+ .sl-wrap{width:min(1180px,calc(100% - 40px))!important;margin:0 auto!important}
+ .sl-track{aspect-ratio:8/3!important;border-radius:22px!important;border:0!important;box-shadow:0 18px 44px rgba(20,20,30,.12)!important}
+ .sl-track img{object-fit:cover;object-position:center}
+ .sl-dots{bottom:10px!important}
+}
+@media (min-width:721px){.sl-track{aspect-ratio:3/1!important}}
+.pop-sec .deal{margin:22px 0 0!important}
+.pop-sec{padding-top:26px!important}
+.sl-track{aspect-ratio:8/3!important}.slider{background:transparent!important}
+@media(max-width:720px){.slider{padding:10px 0 0!important}.sl-wrap{width:calc(100% - 24px)!important;margin:0 auto!important}.sl-track{border-radius:16px!important}}
+.sl-dots button{background:rgba(255,255,255,.5)!important}.sl-dots button.on{background:#fff!important}

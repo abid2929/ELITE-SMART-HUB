@@ -160,7 +160,7 @@ function slider() {
   if (!$("#slTrack")) return;
   const B = (D.banners || []).filter(b => b.on && b.img); if (!B.length) return;
   const tr = $("#slTrack");
-  tr.innerHTML = B.map((b, i) => `<a class="sl" href="${esc(b.link || "#services")}" aria-label="${esc(b.title || "Offer " + (i + 1))}"><img src="${esc(img(b.img))}" alt="${esc(b.title || "")}" width="1920" height="800" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}></a>`).join("");
+  tr.innerHTML = B.map((b, i) => `<a class="sl" href="${esc(b.link || "#services")}" aria-label="${esc(b.title || "Offer " + (i + 1))}"><img src="${esc(img(b.img))}" alt="${esc(b.title || "")}" width="1920" height="720" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}></a>`).join("");
   SL.n = B.length;
   $("#slDots").innerHTML = SL.n > 1 ? B.map((_, i) => `<button type="button" aria-label="Banner ${i + 1}" data-i="${i}"></button>`).join("") : "";
   $$(".sl-btn").forEach(b => b.hidden = SL.n < 2);
