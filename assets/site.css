@@ -669,3 +669,33 @@ body[data-page="shop"] .tabs{top:70px;background:var(--bg)!important;padding-top
  .tabbar .tb-wa>span:last-child{font-weight:700}
 }
 @media (prefers-reduced-motion:reduce){.fwa-ic::before,.fwa-ic::after,.tbw-ic::before,.fwa-b,.fwa-dot{animation:none}}
+/* tablet: keep menu visible (Home etc.) */
+@media (min-width:721px) and (max-width:900px){.nav{display:flex!important;gap:0}.nav a{padding:8px 7px!important;font-size:13.5px!important;white-space:nowrap}.hd-search{display:none!important}.logo small{display:none}.logo b{white-space:nowrap;font-size:15px}.hd-wa span{display:none}.hd-wa{padding:10px 12px!important}}
+@media (min-width:1001px){.nav a{white-space:nowrap}}
+/* ===== COLOUR PASS 3.4 (owner: "pura sada sada") ===== */
+body{background:radial-gradient(900px 500px at 100% 0,rgba(225,29,42,.07),transparent 70%),radial-gradient(700px 500px at 0 40%,rgba(124,58,237,.05),transparent 70%),var(--bg)!important}
+.pop-sec{position:relative;padding:40px 0 34px!important;background:linear-gradient(135deg,#5c070d 0%,#b3121a 45%,#e11d2a 75%,#ff5a3c 100%)!important;overflow:hidden}
+.pop-sec::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.14),transparent 40%),radial-gradient(circle at 90% 90%,rgba(255,200,120,.18),transparent 45%),repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 2px,transparent 2px 22px);pointer-events:none}
+.pop-sec .wrap{position:relative}
+.pop-sec .row-h h2{color:#fff!important}.pop-sec .row-h h2 em{color:#ffd6a0!important}
+.pop-sec .row-h a{color:#fff!important;background:rgba(255,255,255,.16);padding:7px 14px;border-radius:999px;text-decoration:none;font-weight:600}
+.pop-sec .deal{box-shadow:0 20px 50px rgba(60,0,5,.35)!important;border-color:transparent!important}
+.pop-sec .card{box-shadow:0 14px 34px rgba(60,0,5,.28)!important;border-color:transparent!important}
+body[data-page="home"] #services{background:linear-gradient(180deg,#fff5f5 0%,#f6f6f8 30%)!important}
+.cat-blk{position:relative;margin:22px 0 0;padding:18px 18px 8px;border-radius:24px;background:linear-gradient(135deg,color-mix(in srgb,var(--c1) 13%,#fff) 0%,color-mix(in srgb,var(--c2) 6%,#fff) 55%,#fff 100%);border:1px solid color-mix(in srgb,var(--c1) 22%,#fff);box-shadow:0 10px 30px color-mix(in srgb,var(--c1) 10%,transparent);overflow:hidden}
+.cat-blk::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--c2) 22%,transparent),transparent 70%);pointer-events:none}
+.cat-blk .cat-row{margin:0 0 14px!important;position:relative;z-index:1}
+.cat-blk .cat-h svg{width:20px;height:20px;padding:9px;box-sizing:content-box;border-radius:12px;color:#fff!important;stroke:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 6px 14px color-mix(in srgb,var(--c1) 35%,transparent)}
+.cat-blk .cat-h i{background:linear-gradient(90deg,color-mix(in srgb,var(--c1) 40%,transparent),transparent)!important}
+.cat-blk .see-all{color:var(--c1);border-color:color-mix(in srgb,var(--c1) 30%,#fff)}
+.cat-blk .see-all:hover{background:var(--c1);border-color:var(--c1);color:#fff}
+.cat-blk .hrow{position:relative;z-index:1}
+.hero-band{background:linear-gradient(135deg,#0b0b0d 0%,#1d0a0c 55%,#4a0a0d 100%)!important;color:#fff;padding:64px 0 0!important}
+.hero-band .h1b,.hero-band h1{color:#fff!important}.hero-band .h1b em{color:#ff5a5f!important}
+.hero-band .lead,.hero-band .h-trust li{color:#cfc9cc!important}
+.hero-band .eyebrow{background:rgba(255,255,255,.08)!important;color:#fff!important;border-color:rgba(255,255,255,.14)!important}
+.hero-band .btn.ghost{background:rgba(255,255,255,.06)!important;color:#fff!important;border-color:rgba(255,255,255,.25)!important}
+.hero-band .stats li{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.1)!important}
+.hero-band .stats b{color:#fff!important}.hero-band .stats span{color:#b9b3b6!important}
+.hero-band .h-trust svg{color:#ff5a5f!important}
+@media(max-width:720px){.cat-blk{margin:16px -6px 0;padding:14px 12px 6px;border-radius:20px}.cat-blk #grid .hrow,.cat-blk .hrow{margin:0 -12px!important;padding:0 12px 10px!important}.pop-sec{padding:28px 0 24px!important}.hero-band{padding:44px 0 0!important}}

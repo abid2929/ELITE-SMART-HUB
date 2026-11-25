@@ -16,7 +16,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Lilita+One&family=Playfair+Display:ital,wght@1,600;1,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=3.3">
+<link rel="stylesheet" href="assets/site.css?v=3.5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Store","name":"Elite Smart Hub","image":"img/icon-512.png","email":"elitesmarthub@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Dhaka","addressCountry":"BD"},"openingHours":"Mo-Su 00:00-23:59","priceRange":"৳৳"}</script>
 </head>
 <body data-page="home">
@@ -25,7 +25,7 @@
 <header class="hd" id="top">
  <div class="wrap hd-in">
   <a class="logo" href="#top" aria-label="Elite Smart Hub"><img src="img/logo-mark.svg" alt="" width="54" height="39"><span><b>ELITE SMART HUB</b><small>Premium Subscriptions</small></span></a>
-  <nav class="nav" aria-label="Menu"><a href="services.html">All Services</a><a href="#how">How to Order</a><a href="#reviews">Reviews</a><a href="#faq">FAQ</a><a href="#track">Track Order</a></nav>
+  <nav class="nav" aria-label="Menu"><a href="#top" class="on">Home</a><a href="services.html">All Services</a><a href="#how">How to Order</a><a href="#reviews">Reviews</a><a href="#faq">FAQ</a><a href="#track">Track Order</a></nav>
   <button class="hd-search" type="button" aria-label="Search" onclick="focusSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
   <a class="btn wa hd-wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
  </div>
@@ -37,25 +37,7 @@
   <button class="sl-btn prev" type="button" aria-label="Previous banner" onclick="slGo(-1)"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button class="sl-btn next" type="button" aria-label="Next banner" onclick="slGo(1)"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
   <div class="sl-dots" id="slDots"></div></div>
 </section>
-<section class="hero">
- <div class="wrap hero-in">
-  <div class="hero-txt">
-   <p class="eyebrow"><span class="dot"></span> Always open · 100% recommended</p>
-   <h1 class="h1b">Every premium subscription, <em>one elite hub.</em></h1>
-   <p class="lead">Netflix, YouTube Premium, ChatGPT, Canva, CapCut, VPN and game top-up. Pay with bKash or Nagad and get access in minutes.</p>
-   <div class="hero-cta"><a class="btn gold lg" href="#services">Browse Services <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn ghost lg" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg> Order on WhatsApp</a></div>
-   <ul class="h-trust"><li><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Full guarantee</li><li><svg viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>Delivered in minutes</li><li><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>bKash · Nagad · Rocket</li></ul>
-  </div>
-  <div class="hero-art" aria-hidden="true">
-   <div class="ecard"><div class="ec-top"><img src="img/logo-mark.svg" alt="" width="54" height="39"><span>ELITE<br>SMART HUB</span></div><div class="ec-chip"></div><div class="ec-name">ELITE ACCESS</div><div class="ec-bot"><span>PREMIUM MEMBER</span><span>24/7</span></div></div>
-   <div class="hchip c1"><img src="img/p/netflix.jpg" alt=""><span><b>Netflix Premium</b><small>Active · 4K UHD</small></span><i>✓</i></div>
-   <div class="hchip c2"><img src="img/p/chatgpt.jpg" alt=""><span><b>ChatGPT Plus</b><small>Delivered in 12 min</small></span><i>✓</i></div>
-   <div class="hchip c3"><img src="img/p/spotify.jpg" alt=""><span><b>Spotify Premium</b><small>On your own email</small></span><i>✓</i></div>
-  </div>
- </div>
- <div class="wrap"><ul class="stats"><li><b id="stN">45+</b><span>Premium services</span></li><li><b>100%</b><span>Recommend (9 reviews)</span></li><li><b>24/7</b><span>Always open</span></li><li><b>10 min</b><span>Average delivery</span></li></ul></div>
- <div class="marq" aria-hidden="true"><div class="marq-t" id="marq"></div></div>
-</section>
+
 
 <section class="sec pop-sec" id="popular">
  <div class="wrap">
@@ -76,6 +58,26 @@
   <p class="empty" id="empty" hidden>Nothing found. <a data-wa="Hello, I am looking for this service:" target="_blank" rel="noopener">Ask us on WhatsApp</a> and we will arrange it.</p>
   <div class="view-all"><a class="btn red lg" href="services.html">View All Services <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
  </div>
+</section>
+
+<section class="hero hero-band">
+ <div class="wrap hero-in">
+  <div class="hero-txt">
+   <p class="eyebrow"><span class="dot"></span> Always open · 100% recommended</p>
+   <h1 class="h1b">Every premium subscription, <em>one elite hub.</em></h1>
+   <p class="lead">Netflix, YouTube Premium, ChatGPT, Canva, CapCut, VPN and game top-up. Pay with bKash or Nagad and get access in minutes.</p>
+   <div class="hero-cta"><a class="btn gold lg" href="services.html">Browse Services <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn ghost lg" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg> Order on WhatsApp</a></div>
+   <ul class="h-trust"><li><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Full guarantee</li><li><svg viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>Delivered in minutes</li><li><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>bKash · Nagad · Rocket</li></ul>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+   <div class="ecard"><div class="ec-top"><img src="img/logo-mark.svg" alt="" width="54" height="39"><span>ELITE<br>SMART HUB</span></div><div class="ec-chip"></div><div class="ec-name">ELITE ACCESS</div><div class="ec-bot"><span>PREMIUM MEMBER</span><span>24/7</span></div></div>
+   <div class="hchip c1"><img src="img/p/netflix.jpg" alt=""><span><b>Netflix Premium</b><small>Active · 4K UHD</small></span><i>✓</i></div>
+   <div class="hchip c2"><img src="img/p/chatgpt.jpg" alt=""><span><b>ChatGPT Plus</b><small>Delivered in 12 min</small></span><i>✓</i></div>
+   <div class="hchip c3"><img src="img/p/spotify.jpg" alt=""><span><b>Spotify Premium</b><small>On your own email</small></span><i>✓</i></div>
+  </div>
+ </div>
+ <div class="wrap"><ul class="stats"><li><b id="stN">45+</b><span>Premium services</span></li><li><b>100%</b><span>Recommend (9 reviews)</span></li><li><b>24/7</b><span>Always open</span></li><li><b>10 min</b><span>Average delivery</span></li></ul></div>
+ <div class="marq" aria-hidden="true"><div class="marq-t" id="marq"></div></div>
 </section>
 
 <section class="sec alt" id="how">
@@ -178,6 +180,6 @@
  <symbol id="i-ms" viewBox="0 0 24 24"><path d="M12 2C6.4 2 2 6.1 2 11.7c0 2.9 1.2 5.5 3.2 7.2V22l3-1.6c1.2.3 2.4.5 3.8.5 5.6 0 10-4.1 10-9.7S17.6 2 12 2zm1 13l-2.5-2.7L5.6 15l5.4-5.8 2.6 2.7L18.4 9z"/></symbol>
  <symbol id="i-crown" viewBox="0 0 64 48"><path d="M6 14l14 12L32 6l12 20 14-12-6 28H12z" fill="#e2c084" stroke="#a37c3c" stroke-width="2" stroke-linejoin="round"/><circle cx="6" cy="12" r="4" fill="#e2c084"/><circle cx="32" cy="5" r="4" fill="#e2c084"/><circle cx="58" cy="12" r="4" fill="#e2c084"/></symbol>
 </svg>
-<script src="assets/site.js?v=3.2"></script>
+<script src="assets/site.js?v=3.3"></script>
 </body>
 </html>

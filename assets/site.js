@@ -43,6 +43,7 @@ function buildServices() {
   return cats;
 }
 
+const CAT_TONES = [["#e11d2a","#ff7a59"],["#7c3aed","#c084fc"],["#0ea5e9","#38bdf8"],["#16a34a","#4ade80"],["#f97316","#fbbf24"],["#db2777","#f472b6"],["#0d9488","#2dd4bf"],["#4f46e5","#818cf8"],["#ca8a04","#facc15"],["#be123c","#fb7185"]];
 const PAGE = document.body.dataset.page || "home";
 const shopURL = k => "services.html" + (k && k !== "all" ? "?c=" + encodeURIComponent(k) : "");
 function cardHTML(s) {
@@ -59,7 +60,7 @@ function render() {
   const list = SV.filter(s => (CUR === "all" || s.cat === CUR) && (!Q || Q.split(/\s+/).every(w => s.find.includes(w))));
   let html = "";
   if (PAGE === "home" && !Q) {
-    for (const c of cats) { const L = list.filter(s => s.cat === c.k); if (!L.length) continue; const top = [...L.filter(s => s.bs || s.ft), ...L.filter(s => !(s.bs || s.ft))].slice(0, 8); html += `<div class="cat-row"><h3 class="cat-h" id="c-${esc(c.k)}">${ico(c.ic)}${esc(c.name)}<i></i></h3><a class="see-all" href="${shopURL(c.k)}">View all ${L.length} →</a></div><div class="hrow">${top.map(cardHTML).join("")}</div>` }
+    for (const c of cats) { const L = list.filter(s => s.cat === c.k); if (!L.length) continue; const top = [...L.filter(s => s.bs || s.ft), ...L.filter(s => !(s.bs || s.ft))].slice(0, 8); const ci = cats.indexOf(c) % CAT_TONES.length; html += `<div class="cat-blk" style="--c1:${CAT_TONES[ci][0]};--c2:${CAT_TONES[ci][1]}"><div class="cat-row"><h3 class="cat-h" id="c-${esc(c.k)}">${ico(c.ic)}${esc(c.name)}<i></i></h3><a class="see-all" href="${shopURL(c.k)}">View all ${L.length} →</a></div><div class="hrow">${top.map(cardHTML).join("")}</div></div>` }
   } else if (CUR === "all" && !Q) {
     for (const c of cats) { const L = list.filter(s => s.cat === c.k); if (!L.length) continue; html += `<h3 class="cat-h" id="c-${esc(c.k)}">${ico(c.ic)}${esc(c.name)}<i></i></h3><div class="grid">${L.map(cardHTML).join("")}</div>` }
   } else html = list.length ? `<div class="grid" style="margin-top:8px">${list.map(cardHTML).join("")}</div>` : "";
