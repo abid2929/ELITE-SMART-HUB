@@ -1,45 +1,45 @@
 [
  {
+  "k": "ai",
+  "name": "AI Tools",
+  "group": "main",
+  "img": "p/chatgpt.jpg",
+  "order": 1,
+  "on": 1,
+  "ic": "spark"
+ },
+ {
   "k": "streaming",
   "name": "Streaming & OTT",
   "group": "main",
-  "img": "p/tile-netflix.svg",
-  "order": 1,
+  "img": "p/netflix.jpg",
+  "order": 2,
   "on": 1,
   "ic": "play"
  },
  {
   "k": "music",
-  "name": "Music",
+  "name": "Music & Audio",
   "group": "main",
-  "img": "p/tile-spotify.svg",
-  "order": 2,
-  "on": 1,
-  "ic": "music"
- },
- {
-  "k": "ai",
-  "name": "AI Tools",
-  "group": "main",
-  "img": "p/tile-chatgpt.svg",
+  "img": "p/spotify.jpg",
   "order": 3,
   "on": 1,
-  "ic": "spark"
+  "ic": "music"
  },
  {
   "k": "design",
   "name": "Design & Editing",
   "group": "main",
-  "img": "p/tile-canva.svg",
+  "img": "p/canva.jpg",
   "order": 4,
   "on": 1,
   "ic": "brush"
  },
  {
   "k": "office",
-  "name": "Office & Productivity",
+  "name": "Software & Productivity",
   "group": "main",
-  "img": "p/tile-m365.svg",
+  "img": "p/m365.jpg",
   "order": 5,
   "on": 1,
   "ic": "doc"
@@ -48,7 +48,7 @@
   "k": "social",
   "name": "Social & Verified",
   "group": "main",
-  "img": "p/tile-metaverified.svg",
+  "img": "p/metaverified.jpg",
   "order": 6,
   "on": 1,
   "ic": "check"
@@ -57,7 +57,7 @@
   "k": "vpn",
   "name": "VPN & Security",
   "group": "main",
-  "img": "p/tile-nordvpn.svg",
+  "img": "p/nordvpn.jpg",
   "order": 7,
   "on": 1,
   "ic": "shield"
@@ -66,17 +66,26 @@
   "k": "gaming",
   "name": "Gaming & Top-up",
   "group": "main",
-  "img": "p/tile-freefire.svg",
+  "img": "p/freefire.jpg",
   "order": 8,
   "on": 1,
   "ic": "game"
  },
  {
+  "k": "gift",
+  "name": "Gift Cards",
+  "group": "main",
+  "img": "p/googleplay.jpg",
+  "order": 9,
+  "on": 1,
+  "ic": "gem"
+ },
+ {
   "k": "learn",
   "name": "Learning",
   "group": "main",
-  "img": "p/tile-duolingo.svg",
-  "order": 9,
+  "img": "p/duolingo.jpg",
+  "order": 10,
   "on": 1,
   "ic": "book"
  }

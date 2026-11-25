@@ -3,17 +3,28 @@
   "slug": "best-sellers",
   "name": "Best Sellers",
   "ids": [
+   "chatgpt1",
+   "gemini1",
+   "claude1",
+   "perplexity1",
    "netflix1",
    "youtube1",
+   "prime1",
    "spotify1",
-   "chatgpt1",
    "canva1",
    "capcut1",
+   "adobe1",
    "m3651",
+   "windows1",
    "metaverified1",
+   "telegram1",
    "nordvpn1",
    "freefire1",
-   "pubg1"
+   "pubg1",
+   "discord1",
+   "googleplay1",
+   "steam1",
+   "duolingo1"
   ],
   "on": 1
  }
