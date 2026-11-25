@@ -16,7 +16,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Lilita+One&family=Playfair+Display:ital,wght@1,600;1,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=3.2">
+<link rel="stylesheet" href="assets/site.css?v=3.3">
 </head>
 <body data-page="shop">
 <a class="skip" href="#services">Skip to services</a>
@@ -60,10 +60,10 @@
  <a href="index.html"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg><span>Home</span></a>
  <a href="services.html" class="on"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><span>Services</span></a>
  <a href="index.html#track"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7M12 11v10"/></svg><span>Track</span></a>
- <a class="tb-wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
+ <a class="tb-wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><span class="tbw-ic"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><i class="fwa-b">1</i></span><span>WhatsApp</span></a>
 </nav>
 
-<a class="fwa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." aria-label="WhatsApp"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg></a>
+<a class="fwa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." aria-label="Chat on WhatsApp"><span class="fwa-ic"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><i class="fwa-b">1</i></span><span class="fwa-t"><b>Chat with us</b><small><i class="fwa-dot"></i>Online · replies in 2 min</small></span></a>
 <div class="wapop" id="wapop" hidden><button class="x" type="button" aria-label="Close" onclick="closeWaPop()">✕</button><img src="img/icon-192.png" alt="" width="44" height="44"><div><b>Looking for a subscription?</b><p>Message us on WhatsApp, we reply in 2 minutes.</p><a class="btn wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." onclick="closeWaPop()"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg> Start chat</a></div></div>
 <div class="sheet" id="sheet" hidden><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet-box" role="dialog" aria-modal="true" aria-labelledby="shTitle" id="sheetBox"></div></div>
 <div class="toast" id="toast" role="status"></div>
