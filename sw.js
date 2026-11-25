@@ -1,5 +1,5 @@
 /* Elite Smart Hub: small service worker so the site can be installed as an app. Network first; cache only as offline fallback. */
-const C = "esh-v5";
+const C = "esh-v6";
 self.addEventListener("install", e => { self.skipWaiting(); e.waitUntil(caches.open(C).then(c => c.addAll(["./", "assets/site.css", "assets/site.js", "img/icon-192.png"]).catch(() => { }))) });
 self.addEventListener("activate", e => e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch", e => {

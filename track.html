@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Track Order | Elite Smart Hub</title>
+<meta name="description" content="Netflix, YouTube Premium, Spotify, ChatGPT Plus, Canva Pro, CapCut Pro, VPN and game top-up in Bangladesh. Pay with bKash / Nagad, get it in minutes. Elite Smart Hub.">
+<meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="./">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Elite Smart Hub | Elite Access, Premium Experience">
+<meta property="og:description" content="All premium subscriptions in one place. Pay with bKash / Nagad, delivered in minutes.">
+<meta property="og:image" content="img/og.jpg">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="img/icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Lilita+One&family=Playfair+Display:ital,wght@1,600;1,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=4.4">
+</head>
+<body data-page="track">
+<a class="skip" href="#services">Skip to services</a>
+
+<header class="hd" id="top">
+ <div class="wrap hd-in">
+  <a class="logo" href="./" aria-label="Elite Smart Hub"><img src="img/logo-mark.svg" alt="" width="54" height="39"><span><b>ELITE SMART HUB</b><small>Premium Subscriptions</small></span></a>
+  <nav class="nav" aria-label="Menu"><a href="./">Home</a><a href="services.html">All Services</a><a href="how.html">How to Order</a><a href="reviews.html">Reviews</a><a href="faq.html">FAQ</a><a href="track.html" class="on">Track Order</a></nav>
+  <button class="hd-search" type="button" aria-label="Search" onclick="focusSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+  <a class="btn wa hd-wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
+ </div>
+</header>
+
+<main>
+<div class="wrap crumb"><a href="./">Home</a> <span>›</span> <b>Track Order</b></div>
+<section class="sec pg-sec" id="track">
+ <div class="wrap narrow">
+  <div class="sec-h"><p class="kick">Track Order</p><h1 class="pg-h">Where Is My <em>Order</em>?</h1></div>
+  <form class="track" id="trackForm"><input name="no" placeholder="Order number (e.g. ESH-A1B2C3)" required><input name="phone" inputmode="numeric" placeholder="Mobile number" required><button class="btn red">Track</button></form>
+  <div class="track-res" id="trackRes" hidden></div>
+ </div>
+</section>
+<section class="sec" id="contact">
+ <div class="wrap">
+  <div class="contact">
+   <div><p class="kick">Contact</p><h2>Message Us <em>Anytime</em></h2><p class="mu">Orders, questions or help: we are here 24 hours a day.</p></div>
+   <div class="c-list">
+    <a data-wa="Hello Elite Smart Hub" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><span><b>WhatsApp</b><small id="cWa">Send a message</small></span></a>
+    <a id="cMs" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-ms"/></svg><span><b>Messenger</b><small>Elite Smart Hub</small></span></a>
+    <a id="cMail" href="mailto:elitesmarthub@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg><span><b>Email</b><small id="cMailT">elitesmarthub@gmail.com</small></span></a>
+    <div><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span><b>Location</b><small id="cAddr">Dhaka, Bangladesh</small></span></div>
+   </div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer class="ft">
+ <div class="wrap ft-in">
+  <div class="ft-brand"><img src="img/logo-full.webp" alt="Elite Smart Hub" width="170" height="127" loading="lazy"><p>Your trusted place for premium digital subscriptions in Bangladesh. Elite Access, Premium Experience.</p></div>
+  <div><h4>Services</h4><ul id="ftCats"></ul></div>
+  <div><h4>Help</h4><ul><li><a href="how.html">How to order</a></li><li><a href="track.html">Track order</a></li><li><a href="faq.html">FAQ</a></li><li><a href="reviews.html">Reviews</a></li></ul></div>
+  <div><h4>Payment</h4><div class="pays"><span class="pay bk">bKash</span><span class="pay ng">Nagad</span><span class="pay rk">Rocket</span></div><p class="mu sm" style="margin-top:10px">Always open · 24/7</p></div>
+ </div>
+ <div class="wrap disc"><p>Netflix, YouTube, Spotify, ChatGPT, Canva, CapCut and all other names and trademarks belong to their owners. Elite Smart Hub is an independent reseller and not an official partner of any brand.</p></div>
+ <div class="wrap ft-bot"><span class="copy">© <span id="yr"></span> Elite Smart Hub. All rights reserved.</span><span class="sig"><span>Designed &amp; developed by</span><a href="https://www.linkedin.com/in/abid-islam-a926ab2b5/" target="_blank" rel="noopener author"><span class="sg-i sg-li"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg></span>Abid Islam</a></span></div>
+</footer>
+
+<nav class="tabbar" aria-label="Bottom menu">
+ <a href="./"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg><span>Home</span></a>
+ <a href="services.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><span>Services</span></a>
+ <a href="track.html" class="on"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7M12 11v10"/></svg><span>Track</span></a>
+ <a class="tb-wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><span class="tbw-ic"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><i class="fwa-b">1</i></span><span>WhatsApp</span></a>
+</nav>
+
+<a class="fwa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." aria-label="Chat on WhatsApp"><span class="fwa-ic"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><i class="fwa-b">1</i></span><span class="fwa-t"><b>Chat with us</b><small><i class="fwa-dot"></i>Online · replies in 2 min</small></span></a>
+<div class="wapop" id="wapop" hidden><button class="x" type="button" aria-label="Close" onclick="closeWaPop()">✕</button><img src="img/icon-192.png" alt="" width="44" height="44"><div><b>Looking for a subscription?</b><p>Message us on WhatsApp, we reply in 2 minutes.</p><a class="btn wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." onclick="closeWaPop()"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg> Start chat</a></div></div>
+<div class="sheet" id="sheet" hidden><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet-box" role="dialog" aria-modal="true" aria-labelledby="shTitle" id="sheetBox"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.6 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.3 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.7-.1 1.4z"/></symbol>
+ <symbol id="i-ms" viewBox="0 0 24 24"><path d="M12 2C6.4 2 2 6.1 2 11.7c0 2.9 1.2 5.5 3.2 7.2V22l3-1.6c1.2.3 2.4.5 3.8.5 5.6 0 10-4.1 10-9.7S17.6 2 12 2zm1 13l-2.5-2.7L5.6 15l5.4-5.8 2.6 2.7L18.4 9z"/></symbol>
+ <symbol id="i-crown" viewBox="0 0 64 48"><path d="M6 14l14 12L32 6l12 20 14-12-6 28H12z" fill="#e2c084" stroke="#a37c3c" stroke-width="2" stroke-linejoin="round"/><circle cx="6" cy="12" r="4" fill="#e2c084"/><circle cx="32" cy="5" r="4" fill="#e2c084"/><circle cx="58" cy="12" r="4" fill="#e2c084"/></symbol>
+</svg>
+<script src="assets/site.js?v=3.7"></script>
+</body>
+</html>
