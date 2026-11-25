@@ -43,6 +43,8 @@ function buildServices() {
   return cats;
 }
 
+const PAGE = document.body.dataset.page || "home";
+const shopURL = k => "services.html" + (k && k !== "all" ? "?c=" + encodeURIComponent(k) : "");
 function cardHTML(s) {
   return `<article class="card rv-in" data-s="${esc(s.key)}" tabindex="0" aria-label="${esc(s.name)}">
    <div class="art"><img src="${esc(s.img)}" alt="${esc(s.name)}" loading="lazy" width="400" height="400" onerror="this.src='img/icon-512.png'">
@@ -56,7 +58,9 @@ function render() {
   const cats = (D.categories || []).filter(c => c.on !== 0).sort((a, b) => (a.order || 0) - (b.order || 0));
   const list = SV.filter(s => (CUR === "all" || s.cat === CUR) && (!Q || Q.split(/\s+/).every(w => s.find.includes(w))));
   let html = "";
-  if (CUR === "all" && !Q) {
+  if (PAGE === "home" && !Q) {
+    for (const c of cats) { const L = list.filter(s => s.cat === c.k); if (!L.length) continue; const top = [...L.filter(s => s.bs || s.ft), ...L.filter(s => !(s.bs || s.ft))].slice(0, 8); html += `<div class="cat-row"><h3 class="cat-h" id="c-${esc(c.k)}">${ico(c.ic)}${esc(c.name)}<i></i></h3><a class="see-all" href="${shopURL(c.k)}">View all ${L.length} →</a></div><div class="hrow">${top.map(cardHTML).join("")}</div>` }
+  } else if (CUR === "all" && !Q) {
     for (const c of cats) { const L = list.filter(s => s.cat === c.k); if (!L.length) continue; html += `<h3 class="cat-h" id="c-${esc(c.k)}">${ico(c.ic)}${esc(c.name)}<i></i></h3><div class="grid">${L.map(cardHTML).join("")}</div>` }
   } else html = list.length ? `<div class="grid" style="margin-top:8px">${list.map(cardHTML).join("")}</div>` : "";
   $("#grid").innerHTML = html; $("#empty").hidden = !!list.length;
@@ -131,6 +135,7 @@ function openOrder(key, planId) {
 
 /* ---------- reviews ---------- */
 function drawReviews() {
+  if (!$("#rvList")) return;
   const R = (D.reviews || []).filter(r => r.on);
   $("#rvList").innerHTML = R.length ? R.slice(0, 9).map(r => `<div class="rv rv-in"><span class="stars">${"★".repeat(Math.max(1, Math.min(5, r.stars || 5)))}</span><p>${esc(r.text)}</p><b>${esc(r.name)}</b><small>${esc(r.pet || "")}</small></div>`).join("")
     : `<p class="rv-empty">Tap "Write a review" to share your experience.</p>`;
@@ -151,6 +156,7 @@ function openReview() {
 /* ---------- top banner slider (Admin › Hero Banners) ---------- */
 let SL = { i: 0, n: 0, t: null };
 function slider() {
+  if (!$("#slTrack")) return;
   const B = (D.banners || []).filter(b => b.on && b.img); if (!B.length) return;
   const tr = $("#slTrack");
   tr.innerHTML = B.map((b, i) => `<a class="sl" href="${esc(b.link || "#services")}" aria-label="${esc(b.title || "Offer " + (i + 1))}"><img src="${esc(img(b.img))}" alt="${esc(b.title || "")}" width="1920" height="800" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}></a>`).join("");
@@ -170,6 +176,7 @@ function slDots() { $$("#slDots button").forEach((b, i) => b.classList.toggle("o
 
 /* ---------- popular row + today's offer (Admin › Homepage CMS deal) ---------- */
 function popular() {
+  if (!$("#popRow")) return;
   const col = (D.collections || []).find(c => c.on && (c.ids || []).length);
   let L = col ? SV.filter(s => s.plans.some(p => col.ids.includes(p.id))) : SV.filter(s => s.bs);
   if (!L.length) L = SV.filter(s => s.ft);
@@ -190,7 +197,7 @@ function popular() {
 function waPop() {
   let seen = false; try { seen = sessionStorage.getItem("esh_wp") } catch (e) { }
   if (seen) return;
-  const show = () => { if (scrollY < 900 || !$("#sheet").hidden) return; removeEventListener("scroll", show); setTimeout(() => { if ($("#sheet").hidden) $("#wapop").hidden = false }, 1500) };
+  const show = () => { if (scrollY < 900 || !$("#sheet").hidden) return; removeEventListener("scroll", show); setTimeout(() => { const w = $("#wapop"); if (w && $("#sheet").hidden) w.hidden = false }, 1500) };
   addEventListener("scroll", show, { passive: true });
 }
 function closeWaPop() { $("#wapop").hidden = true; try { sessionStorage.setItem("esh_wp", 1) } catch (e) { } }
@@ -201,10 +208,11 @@ function reveal() {
   const io = reveal.io || (reveal.io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target) } }), { rootMargin: "0px 0px -40px" }));
   els.forEach(e => io.observe(e));
 }
-function focusSearch() { $("#services").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#q").focus({ preventScroll: true }), 450) }
+function focusSearch() { if (PAGE === "home") return location.href = "services.html#q"; $("#services").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#q").focus({ preventScroll: true }), 450) }
 function setLinks() {
   const st = D.site.store || {};
   $$("[data-wa]").forEach(a => { a.href = waLink(a.dataset.wa); a.target = "_blank"; a.rel = "noopener" });
+  if (!$("#cMs")) return;
   if (st.whatsapp) $("#cWa").textContent = "+" + waNum();
   const ms = st.messenger || (st.facebook ? st.facebook : ""); const cm = $("#cMs");
   if (ms) cm.href = /^https?:/.test(ms) ? ms : "https://m.me/" + ms; else { cm.href = "#contact"; cm.removeAttribute("target") }
@@ -217,21 +225,22 @@ async function init() {
   $("#yr").textContent = new Date().getFullYear();
   [D.products, D.categories, D.site, D.reviews, D.banners, D.collections] = await Promise.all([get("products", {}), get("categories", []), get("site", {}), get("reviews", []), get("banners", []), get("collections", [])]);
   const cats = buildServices();
-  $("#stN").textContent = SV.length + "+";
+  if (PAGE === "shop") { const c = new URLSearchParams(location.search).get("c"); if (c && cats.some(x => x.k === c)) CUR = c }
+  if ($("#stN")) $("#stN").textContent = SV.length + "+";
   drawTabs(cats); render(); drawReviews(); setLinks();
   const mq = SV.slice(0, 24).map(s => `<a href="#order/${encodeURIComponent(s.key)}"><img src="${esc(s.img)}" alt="" loading="lazy" width="34" height="34">${esc(s.name)}</a>`).join("");
-  $("#marq").innerHTML = mq + mq;
-  $("#ftCats").innerHTML = cats.filter(c => SV.some(s => s.cat === c.k)).slice(0, 6).map(c => `<li><a href="#services" data-cat="${esc(c.k)}">${esc(c.name)}</a></li>`).join("");
+  if ($("#marq")) $("#marq").innerHTML = mq + mq;
+  $("#ftCats").innerHTML = cats.filter(c => SV.some(s => s.cat === c.k)).slice(0, 6).map(c => `<li><a href="${shopURL(c.k)}">${esc(c.name)}</a></li>`).join("");
   slider(); popular();
-  $("#tabs").onclick = e => { const t = e.target.closest(".tab"); if (!t) return; CUR = t.dataset.k; $$(".tab").forEach(x => x.classList.toggle("on", x === t)); render(); t.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" }); const top = $("#tabs").getBoundingClientRect().top; if (top < 0 || top > 140) $("#services .tools").scrollIntoView({ behavior: "smooth" }) };
-  $("#ftCats").onclick = e => { const a = e.target.closest("[data-cat]"); if (!a) return; const t = $(`.tab[data-k="${a.dataset.cat}"]`); t && t.click() };
+  $("#tabs").onclick = e => { const t = e.target.closest(".tab"); if (!t) return; if (PAGE === "home") { location.href = shopURL(t.dataset.k); return } CUR = t.dataset.k; $$(".tab").forEach(x => x.classList.toggle("on", x === t)); render(); history.replaceState(null, "", shopURL(CUR)); t.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" }); const g = $("#services"); scrollTo({ top: g.getBoundingClientRect().top + scrollY - 70, behavior: "smooth" }) };
   let qt; $("#q").oninput = e => { clearTimeout(qt); qt = setTimeout(() => { Q = e.target.value.trim().toLowerCase(); if (Q && CUR !== "all") { CUR = "all"; $$(".tab").forEach(x => x.classList.toggle("on", x.dataset.k === "all")) } render() }, 120) };
   $("#grid").onclick = e => { const c = e.target.closest(".card"); if (c) openOrder(c.dataset.s) };
   $("#grid").onkeydown = e => { if (e.key === "Enter") { const c = e.target.closest(".card"); if (c) openOrder(c.dataset.s) } };
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet() });
   document.addEventListener("click", e => { const a = e.target.closest('a[href^="#order/"]'); if (a) { e.preventDefault(); openOrder(decodeURIComponent(a.getAttribute("href").slice(7))) } if (e.target.closest("[data-wa]")) track("Contact") });
   const m = location.hash.match(/^#order\/(.+)/); if (m) openOrder(decodeURIComponent(m[1]));
-  $("#trackForm").onsubmit = async e => {
+  if (PAGE === "shop" && location.hash === "#q") setTimeout(() => $("#q").focus(), 300);
+  if ($("#trackForm")) $("#trackForm").onsubmit = async e => {
     e.preventDefault(); const f = new FormData(e.target), box = $("#trackRes"); box.hidden = false; box.textContent = "Searching…";
     const ST = { pending: "Pending", confirmed: "Confirmed", processing: "Processing", shipped: "Access sent", delivered: "Completed", cancelled: "Cancelled", returned: "Refunded" };
     try { const r = await fetch(`shop-api.php?a=track&no=${encodeURIComponent(f.get("no").trim())}&phone=${encodeURIComponent(f.get("phone"))}`); const j = await r.json();
@@ -240,9 +249,9 @@ async function init() {
   };
   document.addEventListener("click", e => { const a = e.target.closest('a[href="#top"]'); if (a) { e.preventDefault(); scrollTo({ top: 0, behavior: "smooth" }); history.replaceState(null, "", location.pathname + location.search) } });
   // phone tab bar + nav highlight
-  const secs = ["services", "how", "reviews", "faq", "track"].map(id => document.getElementById(id));
+  const secs = ["services", "how", "reviews", "faq", "track"].map(id => document.getElementById(id)).filter(Boolean);
   const onScroll = () => { const y = scrollY + 120; let cur = "top"; secs.forEach(s => { if (s.offsetTop <= y) cur = s.id }); $$(".nav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur)); $$(".tabbar a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + (cur === "how" || cur === "reviews" || cur === "faq" ? "services" : cur))) };
-  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  if (PAGE === "home") { addEventListener("scroll", onScroll, { passive: true }); onScroll() }
   reveal(); waPop();
   if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => { });
   try { fetch("shop-api.php?a=hit&p=" + encodeURIComponent(location.pathname)) } catch (e) { }
