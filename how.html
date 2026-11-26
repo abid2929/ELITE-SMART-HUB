@@ -16,7 +16,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Lilita+One&family=Playfair+Display:ital,wght@1,600;1,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=4.4">
+<link rel="stylesheet" href="assets/site.css?v=5.4">
 </head>
 <body data-page="how">
 <a class="skip" href="#services">Skip to services</a>
@@ -24,10 +24,11 @@
 <header class="hd" id="top">
  <div class="wrap hd-in">
   <a class="logo" href="./" aria-label="Elite Smart Hub"><img src="img/logo-mark.svg" alt="" width="54" height="39"><span><b>ELITE SMART HUB</b><small>Premium Subscriptions</small></span></a>
-  <nav class="nav" aria-label="Menu"><a href="./">Home</a><a href="services.html">All Services</a><a href="how.html" class="on">How to Order</a><a href="reviews.html">Reviews</a><a href="faq.html">FAQ</a><a href="track.html">Track Order</a></nav>
-  <button class="hd-search" type="button" aria-label="Search" onclick="focusSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+  <form class="gs" id="gsForm" role="search" action="services.html" autocomplete="off"><label class="gs-in"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="gs" name="q" type="search" placeholder="Search Netflix, ChatGPT, Canva, VPN…" aria-label="Search services" enterkeyhint="search"></label><button class="gs-go" type="submit">Search</button><div class="gs-res" id="gsRes" hidden></div></form>
+  <a class="hd-ic" href="track.html" aria-label="Track order"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7M12 11v10"/></svg><span>Track</span></a>
   <a class="btn wa hd-wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><span>WhatsApp</span></a>
  </div>
+ <nav class="hd-nav" aria-label="Menu"><div class="wrap"><div class="nav"><a href="./">Home</a><a href="services.html">All Services</a><a href="how.html" class="on">How to Order</a><a href="reviews.html">Reviews</a><a href="faq.html">FAQ</a><a href="track.html">Track Order</a></div><span class="hd-note"><i></i>Open 24/7 · bKash · Nagad · Rocket</span></div></nav>
 </header>
 
 <main>
@@ -71,8 +72,9 @@
 <nav class="tabbar" aria-label="Bottom menu">
  <a href="./"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg><span>Home</span></a>
  <a href="services.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg><span>Services</span></a>
- <a href="track.html"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7M12 11v10"/></svg><span>Track</span></a>
  <a class="tb-wa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." target="_blank" rel="noopener"><span class="tbw-ic"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><i class="fwa-b">1</i></span><span>WhatsApp</span></a>
+ <a href="#" onclick="focusSearch();return false"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Search</span></a>
+ <a href="track.html"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7M12 11v10"/></svg><span>Track</span></a>
 </nav>
 
 <a class="fwa" data-wa="Hello Elite Smart Hub, I want to buy a subscription." aria-label="Chat on WhatsApp"><span class="fwa-ic"><svg viewBox="0 0 24 24" class="f"><use href="#i-wa"/></svg><i class="fwa-b">1</i></span><span class="fwa-t"><b>Chat with us</b><small><i class="fwa-dot"></i>Online · replies in 2 min</small></span></a>
@@ -85,6 +87,6 @@
  <symbol id="i-ms" viewBox="0 0 24 24"><path d="M12 2C6.4 2 2 6.1 2 11.7c0 2.9 1.2 5.5 3.2 7.2V22l3-1.6c1.2.3 2.4.5 3.8.5 5.6 0 10-4.1 10-9.7S17.6 2 12 2zm1 13l-2.5-2.7L5.6 15l5.4-5.8 2.6 2.7L18.4 9z"/></symbol>
  <symbol id="i-crown" viewBox="0 0 64 48"><path d="M6 14l14 12L32 6l12 20 14-12-6 28H12z" fill="#e2c084" stroke="#a37c3c" stroke-width="2" stroke-linejoin="round"/><circle cx="6" cy="12" r="4" fill="#e2c084"/><circle cx="32" cy="5" r="4" fill="#e2c084"/><circle cx="58" cy="12" r="4" fill="#e2c084"/></symbol>
 </svg>
-<script src="assets/site.js?v=3.7"></script>
+<script src="assets/site.js?v=4.1"></script>
 </body>
 </html>

@@ -122,6 +122,41 @@ function productPage() {
   $("#relRow").innerHTML = [...rel, ...more].map(cardHTML).join(""); $("#relAll").href = shopURL(s.cat);
 }
 
+const CAT_SHORT = { ai: "AI Tools", streaming: "Streaming", music: "Music", design: "Design", office: "Software", social: "Social", vpn: "VPN", gaming: "Gaming", gift: "Gift Cards", learn: "Learning" };
+function catGrid(cats) {
+  const g = $("#catGrid"); if (!g) return;
+  g.innerHTML = cats.filter(c => SV.some(s => s.cat === c.k)).map((c, i) => { const t = CAT_TONES[i % CAT_TONES.length]; const n = SV.filter(s => s.cat === c.k).length;
+    return `<a class="cg" href="${shopURL(c.k)}" style="--c1:${t[0]};--c2:${t[1]}"><span class="cg-i">${ico(c.ic)}</span><b>${esc(CAT_SHORT[c.k] || c.name)}</b><small>${n} services</small></a>` }).join("");
+}
+function gsMatch(q) {
+  const w = q.toLowerCase().split(/\s+/).filter(Boolean); if (!w.length) return [];
+  return SV.filter(s => w.every(x => s.find.includes(x))).sort((a, b) => (b.bs - a.bs) || (a.name.toLowerCase().indexOf(w[0]) - b.name.toLowerCase().indexOf(w[0])));
+}
+function globalSearch() {
+  const f = $("#gsForm"), i = $("#gs"), r = $("#gsRes"); if (!f) return;
+  const catName = k => ((D.categories || []).find(c => c.k === k) || {}).name || "";
+  const show = () => {
+    const q = i.value.trim(); if (!q) { r.hidden = true; return }
+    const L = gsMatch(q);
+    r.innerHTML = (L.length ? L.slice(0, 6).map(s => `<a class="gs-it" href="${pURL(s.key)}"><img src="${esc(s.img)}" alt="" width="44" height="44"><span><b>${esc(s.name)}</b><small>${esc(catName(s.cat))}</small></span><em>${s.min ? tk(s.min) : ""}</em></a>`).join("") : `<p class="gs-none">No service found for “${esc(q)}”. <a data-wa="Hello, I am looking for: ${esc(q)}">Ask us on WhatsApp</a></p>`)
+      + (L.length > 6 ? `<a class="gs-all" href="services.html?q=${encodeURIComponent(q)}">See all ${L.length} results →</a>` : "");
+    $$("[data-wa]", r).forEach(a => { a.href = waLink(a.dataset.wa); a.target = "_blank"; a.rel = "noopener" });
+    r.hidden = false;
+  };
+  if (PAGE === "shop") {
+    i.value = new URLSearchParams(location.search).get("q") || "";
+    let t2; i.oninput = () => { clearTimeout(t2); t2 = setTimeout(() => { Q = i.value.trim().toLowerCase(); if (Q && CUR !== "all") { CUR = "all"; $$(".tab").forEach(x => x.classList.toggle("on", x.dataset.k === "all")) } render(); history.replaceState(null, "", Q ? "services.html?q=" + encodeURIComponent(i.value.trim()) : shopURL(CUR)) }, 120) };
+    f.onsubmit = e => { e.preventDefault(); i.blur(); const g = $("#grid"); if (g) scrollTo({ top: g.getBoundingClientRect().top + scrollY - 140, behavior: "smooth" }) };
+    return;
+  }
+  let t; i.oninput = () => { clearTimeout(t); t = setTimeout(show, 90) };
+  i.onfocus = () => { if (i.value.trim()) show(); f.classList.add("on") };
+  i.onkeydown = e => { if (e.key === "Escape") { r.hidden = true; i.blur() } if (e.key === "ArrowDown") { const a = $(".gs-it", r); if (a) { e.preventDefault(); a.focus() } } };
+  r.onkeydown = e => { const L = $$(".gs-it", r), k = L.indexOf(document.activeElement); if (e.key === "ArrowDown" && k < L.length - 1) { e.preventDefault(); L[k + 1].focus() } if (e.key === "ArrowUp") { e.preventDefault(); (k > 0 ? L[k - 1] : i).focus() } };
+  document.addEventListener("click", e => { if (!f.contains(e.target)) { r.hidden = true; f.classList.remove("on") } });
+  f.onsubmit = e => { e.preventDefault(); const q = i.value.trim(); if (!q) return i.focus(); const L = gsMatch(q); location.href = L.length === 1 ? pURL(L[0].key) : "services.html?q=" + encodeURIComponent(q) };
+}
+
 function openOrder(key, planId) {
   const s = SV.find(x => x.key === key); if (!s) return;
   const sel = s.plans.find(p => p.id === planId) || s.plans[0];
@@ -255,7 +290,7 @@ function reveal() {
   const io = reveal.io || (reveal.io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target) } }), { rootMargin: "0px 0px -40px" }));
   els.forEach(e => io.observe(e));
 }
-function focusSearch() { if (PAGE !== "shop") return location.href = "services.html#q"; $("#services").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#q").focus({ preventScroll: true }), 450) }
+function focusSearch() { const i = $("#gs"); if (!i) return location.href = "services.html"; scrollTo({ top: 0, behavior: "smooth" }); setTimeout(() => i.focus(), 250) }
 function setLinks() {
   const st = D.site.store || {};
   $$("[data-wa]").forEach(a => { a.href = waLink(a.dataset.wa); a.target = "_blank"; a.rel = "noopener" });
@@ -274,7 +309,8 @@ async function init() {
   const cats = buildServices();
   if (PAGE === "shop") { const c = new URLSearchParams(location.search).get("c"); if (c && cats.some(x => x.k === c)) CUR = c }
   if ($("#stN")) $("#stN").textContent = SV.length + "+";
-  if (PAGE === "product") productPage(); else if ($("#grid")) { drawTabs(cats); render() } drawReviews(); setLinks();
+  if (PAGE === "shop") { const q = new URLSearchParams(location.search).get("q"); if (q) { Q = q.trim().toLowerCase(); CUR = "all"; if ($("#q")) $("#q").value = q } }
+  if (PAGE === "product") productPage(); else if ($("#grid")) { drawTabs(cats); render() } catGrid(cats); globalSearch(); drawReviews(); setLinks();
   const mq = SV.slice(0, 24).map(s => `<a href="${pURL(s.key)}"><img src="${esc(s.img)}" alt="" loading="lazy" width="34" height="34">${esc(s.name)}</a>`).join("");
   if ($("#marq")) $("#marq").innerHTML = mq + mq;
   $("#ftCats").innerHTML = cats.filter(c => SV.some(s => s.cat === c.k)).slice(0, 6).map(c => `<li><a href="${shopURL(c.k)}">${esc(c.name)}</a></li>`).join("");
@@ -286,7 +322,7 @@ async function init() {
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet() });
   document.addEventListener("click", e => { const a = e.target.closest('a[href^="#order/"]'); if (a) { e.preventDefault(); goP(decodeURIComponent(a.getAttribute("href").slice(7))) } if (e.target.closest("[data-wa]")) track("Contact") });
   const m = location.hash.match(/^#order\/(.+)/); if (m) { if (PAGE === "product") openOrder(decodeURIComponent(m[1])); else return goP(decodeURIComponent(m[1])) }
-  if (PAGE === "shop" && location.hash === "#q") setTimeout(() => $("#q").focus(), 300);
+  if (location.hash === "#q") setTimeout(focusSearch, 300);
   if ($("#trackForm")) $("#trackForm").onsubmit = async e => {
     e.preventDefault(); const f = new FormData(e.target), box = $("#trackRes"); box.hidden = false; box.textContent = "Searching…";
     const ST = { pending: "Pending", confirmed: "Confirmed", processing: "Processing", shipped: "Access sent", delivered: "Completed", cancelled: "Cancelled", returned: "Refunded" };
